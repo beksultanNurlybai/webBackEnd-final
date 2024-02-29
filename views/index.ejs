@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Main Page</title>
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg bg-body-secondary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Landmarks</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                <div></div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" data-bs-toggle="dropdown">APIs</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/stockMarketAPI">Stock Market API</a></li>
+                          <li><a class="dropdown-item" href="/newsapi">US News</a></li>
+                        </ul>
+                    </li>
+                    <% if (isAdmin) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">admin</a>
+                        </li>
+                    <% } %>
+                </ul>
+                <ul class="navbar-nav">
+                    <% if (loggedIn) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/account"><%= user.username %></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth/logout">logout</a>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth/login">login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth/register">registration</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="title">
+            <h3>Welcome to the site where you can find information about monuments, historical buildings and landmarks</h3>
+        </div>
+        <div class="content">
+            <% landmarks.forEach(landmark => { %>
+                <div class="landmark-item">
+                    <h4><%= landmark.title %></h4>
+                    <p><%= landmark.description %></p>
+                    <div id="carouselExample<%= landmark._id %>" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <% landmark.pictures.forEach((picture, index) => { %>
+                                <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                                    <img src="<%= picture %>" class="d-block w-100" alt="<%= landmark.title %>">
+                                </div>
+                            <% }) %>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample<%= landmark._id %>" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample<%= landmark._id %>" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                    <p>Updated Date: <%= landmark.updatedDate %></p>
+                </div>
+            <% }) %>
+        </div>
+        </div>
+    </div>
+    <footer style="background-color: rgb(228, 228, 228); padding: 50px; margin-top: 200px;">
+        <p>Student full name: Nurlybai Beksutan</p>
+        <p>Group: IT-2207</p>
+        <p>GitHub link: <a href="https://github.com/beksultanNurlybai/webBackEnd-final">https://github.com/beksultanNurlybai/webBackEnd-final</a></p>
+    </footer>
+</body>
+</html>
